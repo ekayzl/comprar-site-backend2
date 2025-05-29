@@ -171,7 +171,7 @@ if (!pixId) {
 
     const checarPagamento = async () => {
       try {
-        const statusResponse = await fetch(`https://seguidores-api.onrender.com/status-pix?txid=${pixId}`);
+const statusResponse = await fetch(`https://seguidores-api.onrender.com/verificar-pagamento/${pixId}`);
         const statusData = await statusResponse.json();
 
         if (statusData.pago) {
