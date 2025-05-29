@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Checkout - Pagamento Pix</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background-color: #0f0f2d;
+    color: white;
+    padding: 40px 20px;
+    max-width: 480px;
+    margin: auto;
+    line-height: 1.6;
+  }
+  h1 {
+    text-align: center;
+    color: #fcd400;
+    margin-bottom: 30px;
+  }
+  #qr-code {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 30px;
+    min-height: 220px;
+    align-items: center;
+  }
+  #pix-copy {
+    background-color: #1c1c44;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: monospace;
+    user-select: all;
+    cursor: pointer;
+    color: #fcd400;
+    box-shadow: 0 0 10px #fcd400aa;
+    transition: background-color 0.3s ease;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 12px;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+  #pix-copy:hover {
+    background-color: #3d3d80;
+  }
+  #loading {
+    text-align: center;
+    margin-top: 30px;
+    font-weight: 600;
+    color: #fcd400;
+  }
+  #status-pagamento {
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+  }
+  .status-aguardando {
+    background-color: #2d4a22;
+    color: #90ee90;
+    border: 2px solid #4ade80;
+  }
+  .status-confirmado {
+    background-color: #1e3a1e;
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    animation: pulse 1s infinite;
+  }
+  .status-erro {
+    background-color: #4a2222;
+    color: #ff6b6b;
+    border: 2px solid #ff4444;
+  }
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
+  p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+  p span {
+    font-weight: 700;
+    color: #fcd400;
+  }
+  #instrucoes {
+    background-color: #1a1a40;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 30px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #ddd;
+  }
+  #instrucoes h2 {
+    color: #fcd400;
+    margin-bottom: 15px;
+  }
+  #instrucoes ol {
+    padding-left: 20px;
+  }
+  #instrucoes ol li {
+    margin-bottom: 10px;
+  }
+  .btn-voltar {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #fcd400;
+    color: black;
+    font-weight: bold;
+    padding: 12px 0;
+    margin-top: 40px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  .btn-voltar:hover {
+    background-color: #ffe75c;
+  }
+  .loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #fcd40050;
+    border-radius: 50%;
+    border-top-color: #fcd400;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .debug-info {
+    background-color: #2d2d2d;
+    color: #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 12px;
+    margin: 20px 0;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .btn-teste {
+    background-color: #ff6b6b;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 5px;
+    font-size: 14px;
+  }
+  .btn-teste:hover {
+    background-color: #ff5252;
+  }
+</style>
+</head>
+<body>
+
+<h1>Pagamento Pix</h1>
+<p>Valor: R$ <span id="valor"></span></p>
+
+<div id="qr-code"></div>
+
+<p>Código Pix (Clique para copiar):</p>
+<div id="pix-copy" title="Clique para copiar"></div>
+
+<div id="loading">
+  <div class="loading-spinner"></div>
+  Gerando pagamento PIX...
+</div>
+
+<div id="status-pagamento" style="display: none;">
+  <div class="loading-spinner"></div>
+  Aguardando pagamento...
+</div>
+
+<!-- Área de debug (remover em produção) -->
+<div id="debug-area" style="margin-top: 30px;">
+  <h3 style="color: #fcd400;">🔧 Área de Testes</h3>
+  <button class="btn-teste" onclick="simularPagamento()">Simular Pagamento</button>
+  <button class="btn-teste" onclick="verificarStatus()">Verificar Status</button>
+  <button class="btn-teste" onclick="mostrarDebug()">Debug Info</button>
+  <div id="debug-info" class="debug-info" style="display: none;"></div>
+</div>
+
+<div id="instrucoes">
+  <h2>Como pagar com PIX:</h2>
+  <ol>
+    <li><strong>Pelo QR Code:</strong> Use a câmera do seu celular ou app do banco para escanear o código acima.</li>
+    <li><strong>Por Copia e Cola:</strong> Clique no código PIX para copiar, depois cole no seu app de pagamentos.</li>
+    <li>Confirme os dados e efetue o pagamento.</li>
+    <li>O pagamento será confirmado automaticamente em alguns segundos.</li>
+  </ol>
+</div>
+
+<a href="index.html" class="btn-voltar">⬅ Voltar para o Menu Inicial</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
+
+<script>
+// Variáveis globais
+let pixId = null;
+let verificandoPagamento = false;
+let intervaloPagamento = null;
+
+// Função de debug
+function debug(message, data = null) {
+  const timestamp = new Date().toLocaleTimeString();
+  console.log(`[${timestamp}] ${message}`, data || '');
+  
+  // Adiciona à área de debug visual
+  const debugEl = document.getElementById('debug-info');
+  if (debugEl) {
+    debugEl.innerHTML += `<div>[${timestamp}] ${message} ${data ? JSON.stringify(data) : ''}</div>`;
+    debugEl.scrollTop = debugEl.scrollHeight;
+  }
+}
+
+// Função para mostrar/ocultar debug
+function mostrarDebug() {
+  const debugEl = document.getElementById('debug-info');
+  debugEl.style.display = debugEl.style.display === 'none' ? 'block' : 'none';
+}
+
+// Função para simular pagamento (apenas para testes)
+async function simularPagamento() {
+  if (!pixId) {
+    alert('Nenhum PIX gerado ainda!');
+    return;
+  }
+  
+  try {
+    const response = await fetch('http://localhost:3000/simular-pagamento', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ txid: pixId })
+    });
+    
+    const result = await response.json();
+    debug('Pagamento simulado:', result);
+    alert('Pagamento simulado! Aguarde a verificação...');
+  } catch (error) {
+    debug('Erro ao simular pagamento:', error);
+    alert('Erro ao simular pagamento');
+  }
+}
+
+// Função para verificar status manualmente
+async function verificarStatus() {
+  if (!pixId) {
+    alert('Nenhum PIX gerado ainda!');
+    return;
+  }
+  
+  try {
+    const response = await fetch(`http://localhost:3000/status-pix?txid=${pixId}`);
+    const result = await response.json();
+    debug('Status verificado:', result);
+    alert(`Status: ${result.pago ? 'PAGO' : 'PENDENTE'}`);
+  } catch (error) {
+    debug('Erro ao verificar status:', error);
+    alert('Erro ao verificar status');
+  }
+}
+
+// Inicialização quando a página carrega
+window.addEventListener('load', async () => {
+  debug('Página carregada, iniciando processo...');
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const valor = parseFloat(urlParams.get('valor')) || 10.00; // Valor padrão para teste
+  
+  document.getElementById('valor').innerText = valor.toFixed(2).replace('.', ',');
+  debug('Valor configurado:', valor);
+
+  try {
+    // Gera o PIX no backend
+    debug('Enviando solicitação para gerar PIX...');
+    
+    const response = await fetch('http://localhost:3000/gerar-pix', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ valor }),
+    });
+
+    debug('Resposta recebida, status:', response.status);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Erro HTTP ${response.status}: ${errorText}`);
+    }
+
+    const data = await response.json();
+    debug('Dados do PIX recebidos:', data);
+
+    if (!data.qr_code) {
+      throw new Error('QR Code não foi retornado pela API');
+    }
+
+    // Gerar um ID se não vier da API
+    if (!data.txid) {
+      data.txid = `pix_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      debug('ID gerado localmente:', data.txid);
+    }
+
+    // Remove o loading inicial
+    document.getElementById('loading').style.display = 'none';
+
+    // Mostra o status de aguardando pagamento
+    const statusEl = document.getElementById('status-pagamento');
+    statusEl.style.display = 'block';
+    statusEl.className = 'status-aguardando';
+    statusEl.innerHTML = '<div class="loading-spinner"></div>Aguardando pagamento...';
+
+    // Gera o QR Code
+    await gerarQRCode(data.qr_code);
+
+    // Configura o Pix copia e cola
+    configurarPixCopiaCola(data.qr_code);
+
+    // Armazena o ID do PIX para verificação
+    pixId = data.txid;
+    debug('PIX ID armazenado:', pixId);
+
+    // Inicia a verificação automática de pagamento
+    iniciarVerificacaoPagamento(pixId);
+
+  } catch (error) {
+    debug('Erro ao gerar PIX:', error);
+    
+    const loadingEl = document.getElementById('loading');
+    loadingEl.innerHTML = `
+      <div style="color: #ff6b6b;">
+        ❌ Erro ao gerar pagamento<br>
+        <small>${error.message}</small><br>
+        <button onclick="location.reload()" style="margin-top: 10px; padding: 8px 16px; background: #fcd400; color: black; border: none; border-radius: 5px; cursor: pointer;">
+          Tentar Novamente
+        </button>
+      </div>
+    `;
+  }
+});
+
+// Função para gerar QR Code
+async function gerarQRCode(qrCodeText) {
+  const qrDiv = document.getElementById('qr-code');
+  
+  try {
+    debug('Gerando QR Code...');
+    
+    // Verifica se a biblioteca QRCode está disponível
+    if (typeof QRCode === 'undefined') {
+      throw new Error('Biblioteca QRCode não carregada');
+    }
+
+    const canvas = document.createElement('canvas');
+    qrDiv.appendChild(canvas);
+
+    await new Promise((resolve, reject) => {
+      QRCode.toCanvas(canvas, qrCodeText, { 
+        width: 200,
+        height: 200,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        },
+        errorCorrectionLevel: 'M'
+      }, (error) => {
+        if (error) {
+          debug('Erro ao gerar QR Code:', error);
+          reject(error);
+        } else {
+          debug('QR Code gerado com sucesso');
+          resolve();
+        }
+      });
+    });
+
+  } catch (error) {
+    debug('Erro na geração do QR Code:', error);
+    qrDiv.innerHTML = `
+      <div style="text-align: center; padding: 20px; background: #2d1a1a; border-radius: 10px; color: #ff6b6b;">
+        ❌ Erro ao gerar QR Code<br>
+        <small>Use o código Pix abaixo para pagamento</small>
+      </div>
+    `;
+  }
+}
+
+// Função para configurar o Pix copia e cola
+function configurarPixCopiaCola(qrCodeText) {
+  const pixCopyEl = document.getElementById('pix-copy');
+  pixCopyEl.innerText = qrCodeText;
+  
+  pixCopyEl.onclick = async () => {
+    try {
+      await navigator.clipboard.writeText(qrCodeText);
+      debug('Código PIX copiado para clipboard');
+      
+      // Feedback visual
+      const originalBg = pixCopyEl.style.backgroundColor;
+      const originalText = pixCopyEl.innerText;
+      
+      pixCopyEl.innerText = '✅ Código copiado com sucesso!';
+      pixCopyEl.style.backgroundColor = '#4ade80';
+      pixCopyEl.style.color = '#000';
+      
+      setTimeout(() => {
+        pixCopyEl.innerText = originalText;
+        pixCopyEl.style.backgroundColor = originalBg;
+        pixCopyEl.style.color = '#fcd400';
+      }, 2000);
+      
+    } catch (err) {
+      debug('Erro ao copiar código PIX:', err);
+      
+      // Fallback: selecionar o texto
+      pixCopyEl.select();
+      document.execCommand('copy');
+      
+      alert('Código copiado! Se não funcionou, selecione e copie manualmente.');
+    }
+  };
+}
+
+// Função para iniciar verificação de pagamento
+function iniciarVerificacaoPagamento(txid) {
+  if (verificandoPagamento) {
+    debug('Verificação já está em andamento');
+    return;
+  }
+  
+  verificandoPagamento = true;
+  debug('Iniciando verificação de pagamento para:', txid);
+
+  const checarPagamento = async () => {
+    try {
+      debug('Verificando status do pagamento...');
+      
+      const statusResponse = await fetch(`http://localhost:3000/status-pix?txid=${txid}`);
+      
+      if (!statusResponse.ok) {
+        throw new Error(`Erro HTTP ${statusResponse.status}`);
+      }
+      
+      const statusData = await statusResponse.json();
+      debug('Status recebido:', statusData);
+
+      if (statusData.pago) {
+        // Pagamento confirmado!
+        debug('✅ PAGAMENTO CONFIRMADO!');
+        
+        // Para a verificação
+        if (intervaloPagamento) {
+          clearInterval(intervaloPagamento);
+        }
+        verificandoPagamento = false;
+        
+        // Atualiza a interface
+        const statusEl = document.getElementById('status-pagamento');
+        statusEl.className = 'status-confirmado';
+        statusEl.innerHTML = '🎉 Pagamento Confirmado!';
+        
+        // Aguarda 3 segundos e redireciona
+        setTimeout(() => {
+          debug('Redirecionando para página de confirmação...');
+          window.location.href = 'confirmacao.html?txid=' + txid;
+        }, 3000);
+        
+      } else {
+        debug('Pagamento ainda pendente, continuando verificação...');
+      }
+      
+    } catch (error) {
+      debug('Erro ao consultar status:', error);
+      // Continua tentando mesmo com erro (pode ser problema temporário)
+    }
+  };
+
+  // Primeira verificação após 3 segundos
+  setTimeout(checarPagamento, 3000);
+  
+  // Verificações subsequentes a cada 5 segundos
+  intervaloPagamento = setInterval(checarPagamento, 5000);
+  
+  debug('Verificação automática configurada (a cada 5 segundos)');
+}
+
+// Cleanup ao sair da página
+window.addEventListener('beforeunload', () => {
+  debug('Página sendo fechada, parando verificações...');
+  verificandoPagamento = false;
+  if (intervaloPagamento) {
+    clearInterval(intervaloPagamento);
+  }
+});
+
+// Tratamento de erros globais
+window.addEventListener('error', (event) => {
+  debug('Erro global capturado:', event.error);
+});
+</script>
+
+</body>
+</html>

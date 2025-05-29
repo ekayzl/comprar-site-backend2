@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Finalizar Compra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0f0f2d;
+      color: white;
+      margin: 0;
+      padding: 0;
+      background-image: url('https://www.transparenttextures.com/patterns/connected.png');
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 60px auto;
+      background: #1c1c3a;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(252, 212, 0, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    p.urgente {
+      text-align: center;
+      color: #fcd400;
+      font-weight: bold;
+      margin: 10px 0 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+
+        box-sizing: border-box; /* importante */
+        overflow-x: auto; /* barra de rolagem horizontal quando necessário */
+        white-space: nowrap; /* impede quebra de linha */
+        text-overflow: ellipsis; /* coloca "..." se o texto for maior */
+    }
+
+    .timer {
+      text-align: center;
+      font-size: 24px;
+      color: #fcd400;
+      margin: 20px 0;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background-color: #fcd400;
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .popup-content {
+      background-color: #fff;
+      color: #000;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 90%;
+      width: 400px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .popup-content h2 {
+      color: #fcd400;
+      margin-bottom: 10px;
+    }
+
+    .popup-content p {
+      margin-bottom: 20px;
+    }
+
+    .popup-content button {
+      background-color: #fcd400;
+      color: #000;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @media (max-width: 600px) {
+      .popup-content {
+        padding: 20px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Finalizando sua compra!</h1>
+  <p class="urgente">🔥 Últimas unidades! Oferta exclusiva por tempo limitado.</p>
+
+  <label for="instagram">@ do Instagram:</label>
+  <input type="text" id="instagram" name="instagram" placeholder="@seuusuario" required/>
+
+  <label for="telefone">Telefone (com DDD):</label>
+  <input
+    type="tel"
+    id="telefone"
+    name="telefone"
+    placeholder="11999999999"
+    inputmode="numeric"
+    pattern="[0-9]{10,11}"
+    required
+  />
+
+  <div class="timer" id="timer">10:00</div>
+
+  <button type="button" onclick="mostrarUpsell()">Ir para o pagamento</button>
+
+</div>
+
+<script>
+
+function enviarCheckoutComValor(valor) {
+  console.log("Enviando checkout com valor: R$ " + valor.toFixed(2));
+
+  // Exemplo de dados fixos, substitua pelo real
+  const nomeRecebedor = "Seu Nome ou Empresa";
+  const descricao = "Compra de seguidores";
+  const referencia = "REF123456";
+
+  gerarPixPushinPay(nomeRecebedor, valor, descricao, referencia);
+  
+  // Aqui você pode chamar a função de gerar o Pix, abrir modal, redirecionar, etc.
+  // Exemplo: gerarPixPushinPay(nome, valor, descricao, referencia)
+}
+
+  async function mostrarUpsell() {
+    const instagram = document.getElementById('instagram').value.trim();
+    const telefone = document.getElementById('telefone').value.trim();
+
+    if (!instagram || !telefone) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    const data = {
+      instagram,
+      telefone
+    };
+
+    try {
+      const response = await fetch('https://api.sheetmonkey.io/form/nYQJgMKUKg2vEY9w8qSoZd', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        alert('Dados enviados com sucesso! Agora, vamos para o pagamento.');
+        // Aqui você coloca o que deve acontecer após o envio
+        // Exemplo:
+        // mostrar seu upsell, abrir modal, redirecionar, etc.
+      } else {
+        alert('Erro ao enviar os dados. Tente novamente.');
+      }
+    } catch (error) {
+      alert('Erro de conexão. Tente novamente mais tarde.');
+    }
+  }
+</script>
+
+
+  <!-- Popups -->
+  <div class="popup" id="upsell">
+    <div class="popup-content fade-in">
+      <h2>😱 Oferta exclusiva!</h2>
+      <p>Por apenas <strong>R$ 2,42 a mais</strong> leve + 2.000 Curtidas e 5.000 Visualizações!</p>
+      <button onclick="aceitarUpsell()">Quero esse pacote melhor!</button>
+      <br><br>
+      <button onclick="recusarUpsell()">Prefiro manter o pacote atual</button>
+    </div>
+  </div>
+
+  <div class="popup" id="confirmar-recusa">
+    <div class="popup-content fade-in">
+      <h2>Espera aí...</h2>
+      <p id="mensagem-upgrade">O que você acha de <strong>+700 seguidores e 2.000 curtidas</strong> por apenas <strong>R$ X,XX</strong>!</p>
+      <button onclick="aceitarUpsell()">Ok, quero essa vantagem!</button>
+      <br><br>
+      <button onclick="finalizarCompraOriginal()">Não, quero continuar com o pacote atual</button>
+    </div>
+  </div>
+
+
+  <script>
+    let tempo = 10 * 60;
+    const timerEl = document.getElementById('timer');
+  
+    const urlParams = new URLSearchParams(window.location.search);
+    const pacoteOriginal = urlParams.get('pacote') || 'basico';
+    let pacoteFinal = pacoteOriginal;
+
+    const valores = {
+  seg_1k: 1.99,
+  seg_2k: 3.98,
+  seg_5k: 5.97,
+  seg_7k: 7.96,
+  seg_10k: 9.95,
+  seg_15k: 11.94,
+  curt_500: 1.99,
+  curt_1k: 3.98,
+  curt_3k: 5.97,
+  curt_5k: 7.96,
+  curt_10k: 9.95,
+  curt_15k: 11.94,
+  view_1k: 1.99,
+  view_5k: 3.98,
+  view_10k: 5.97,
+  view_15k: 7.96,
+  view_20k: 9.95,
+  view_30k: 11.94,
+
+  // 👇 Adicione os nomes EXATOS que você está usando na URL
+  ofertaespecial399: 8.97,
+  ofertaespecial299: 7.99
+};
+
+  
+    const incluirMais1000 = urlParams.get('upsell') === 'true';
+    if (incluirMais1000 && valores[pacoteOriginal]) {
+      valores[pacoteOriginal] += 1.82;
+    }
+  
+    const adicionalUpsell = 2.42;
+  
+    function atualizarTimer() {
+      const minutos = Math.floor(tempo / 60);
+      const segundos = tempo % 60;
+      timerEl.innerText = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+      if (tempo > 0) tempo--;
+    }
+  
+    setInterval(atualizarTimer, 1000);
+    atualizarTimer();
+  
+    window.mostrarUpsell = () => {
+      const insta = document.getElementById('instagram').value.trim();
+      const tel = document.getElementById('telefone').value.trim();
+      if (!insta || !tel) {
+        alert("Preencha os dois campos!");
+        return;
+      }
+  
+      localStorage.setItem("usuario_insta", insta);
+      localStorage.setItem("usuario_tel", tel);
+      document.getElementById('upsell').style.display = 'flex';
+    };
+  
+    // Seu código original continua aqui...
+
+window.aceitarUpsell = () => {
+  // Mantém sua lógica de aceitar upsell
+  pacoteFinal = "premiumzao";
+  
+  // Manda pra próxima tela (checkout) com valor atualizado
+  enviarCheckoutComValor(valores[pacoteOriginal] + adicionalUpsell);
+};
+
+window.recusarUpsell = () => {
+  // Mantém sua lógica de recusar e atualizar a mensagem
+  let precoBase = valores[pacoteOriginal];
+
+  if (typeof precoBase === 'number') {
+    const precoTotal = (precoBase + adicionalUpsell).toFixed(2).replace('.', ',');
+    document.getElementById("mensagem-upgrade").innerHTML =
+      `O que você acha de <strong>+2.000 visualizações e 1.000 curtidas</strong> por apenas <strong>R$ ${precoTotal}</strong>!`;
+  } else {
+    console.error("Pacote inválido ou não encontrado:", pacoteOriginal);
+    document.getElementById("mensagem-upgrade").innerHTML =
+      `Erro ao carregar a oferta personalizada.`;
+  }
+
+  // Fecha primeiro pop-up
+  document.getElementById('upsell').style.display = 'none';
+  // Mostra segundo pop-up (confirmar recusa)
+  document.getElementById('confirmar-recusa').style.display = 'flex';
+};
+
+window.aceitarUltimaOferta = () => {
+  // Calcula valor com adicional para checkout
+  const valorComAdicional = (Number(valores[pacoteOriginal]) + adicionalUpsell).toFixed(2);
+  
+  // Vai pra próxima tela (checkout) com o valor final
+  enviarCheckoutComValor(Number(valorComAdicional));
+};
+
+window.recusarUltimaOferta = () => {
+  // Fecha segundo pop-up
+  document.getElementById('confirmar-recusa').style.display = 'none';
+
+  // Aqui verifica se existe um terceiro pop-up (pode ser ID 'terceiro-popup')
+  if (document.getElementById('terceiro-popup')) {
+    // Mostra terceiro pop-up
+    document.getElementById('terceiro-popup').style.display = 'flex';
+  } else {
+    // Se não existir terceiro pop-up, já vai direto para checkout com valor original
+    enviarCheckoutComValor(valores[pacoteOriginal]);
+  }
+};
+
+// Função para o botão do terceiro pop-up, que só tem um botão para ir pra próxima tela
+window.irParaCheckoutDoTerceiroPopup = () => {
+  // Fecha terceiro pop-up
+  document.getElementById('terceiro-popup').style.display = 'none';
+  // Vai para próxima tela com valor original
+  enviarCheckoutComValor(valores[pacoteOriginal]);
+};
+
+// Função para finalizar compra direto (botão inicial)
+window.finalizarCompraOriginal = () => {
+  enviarCheckoutComValor(valores[pacoteOriginal]);
+};
+
+// Sua função enviarCheckoutComValor deve existir e fazer o redirecionamento correto
+function enviarCheckoutComValor(valor) {
+  pacoteFinal = pacoteFinal || pacoteOriginal;
+  const valorFormatado = valor.toFixed(2);
+  window.location.href = `checkout.html?pacote=${pacoteFinal}&valor=${valorFormatado}`;
+}
+
+// Seu restante de código continua aqui...
+
+
+  </script>
+  
+
+<div class="popup" id="popup-estoque">
+  <div class="popup-content fade-in">
+    <h2>🚨 Última chance!</h2>
+    <p>Esse pacote está esgotado. Mas você pode concluir sua compra adicionando <strong>+700 seguidores</strong> por apenas <strong>R$ 1,52</strong>.</p>
+    <button onclick="aceitarUltimaOferta()">Adicionar e continuar</button>
+
+  </div>
+</div>
+
+</body>
+</html>

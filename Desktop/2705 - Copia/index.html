@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprar Seguidores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0f0f2d;
+      color: #fff;
+      line-height: 1.6;
+    }
+    .section {
+      padding: 50px 20px;
+      text-align: center;
+      position: relative;
+    }
+    .section::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url('https://www.transparenttextures.com/patterns/connected.png');
+      opacity: 0.04;
+      z-index: 0;
+    }
+    .section > * { position: relative; z-index: 1; }
+    .section-light {
+      background: linear-gradient(to bottom right, #ffffff, #f2f2f2);
+      color: #0f0f2d;
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 50px; /* ou 100px se quiser mais espaço */
+    }
+    .hero lottie-player {
+      width: 160px;
+      height: 160px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .hero ul {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+    .hero ul li { margin: 8px 0; }
+    .btn {
+      background-color: #fcd400;
+      color: #000;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover { background-color: #ffe75c; }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+    .feature {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 16px;
+      width: 180px;
+    }
+    .feature lottie-player {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 10px;
+    }
+    .testimonials {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 600px;
+      margin: 20px auto 0;
+    }
+    .testimonial {
+      background-color: #1d1d44;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .packages {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .package {
+      background-color: #1d1d44;
+      color: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      width: 280px;
+      box-shadow: 0 0 20px rgba(252, 212, 0, 0.2);
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    .package:hover { transform: translateY(-5px); }
+    .package.popular {
+      border: 3px solid #fcd400;
+      background-color: #2b2b6c;
+    }
+    .package.popular::before {
+      content: 'MAIS VENDIDO';
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #fcd400;
+      color: #000;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .package h3 { font-size: 22px; margin-bottom: 15px; }
+    .package p { margin: 10px 0; }
+    .package .btn {
+      margin-top: 20px;
+      width: 100%;
+    }
+    @media (max-width: 768px) {
+      .hero lottie-player {
+        width: 130px;
+        height: 130px;
+      }
+      .section {
+        padding: 40px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 🔥 NAVBAR TOPO -->
+<div class="navbar">
+  <div class="logo">LojadoInfluencer</div>
+  <div class="menu-icon" onclick="toggleMenu()">☰</div>
+  <div class="menu" id="menu">
+    <a href="https://wa.me/5511981770448" target="_blank">Suporte</a>
+    <a href="termos.html">Termos de Uso</a>
+    <a href="faq.html">FAQ</a>
+  </div>
+</div>
+
+<section class="section hero">
+  <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_w51pcehl.json" background="transparent" speed="1" loop autoplay></lottie-player>
+  <h1>Compre <strong>SEGUIDORES</strong> a partir de R$ 1,99!</h1>
+  <ul>
+    <li>↘ Não precisamos da sua senha!</li>
+    <li><strong>↘ Ganhe</strong> bònus na primeira compra.</li>
+    <li>↘ Envio imediato após o pagamento!</li>
+  </ul>
+  <a href="#pacotes" class="btn">Compre Agora</a>
+</section>
+
+<section class="section section-light">
+  <h2>Por que comprar seguidores?</h2>
+  <div class="features">
+    <div class="feature">
+      <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_9cyyl8i4.json" background="transparent" speed="1" loop autoplay></lottie-player>
+      Se torne um Influenciador hoje!
+    </div>
+    <div class="feature">
+      <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_vfgiuglz.json" background="transparent" speed="1" loop autoplay></lottie-player>
+      Ganhe dinheiro com seu Instagram.
+    </div>
+    <div class="feature">
+      <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_qp1q7mct.json" background="transparent" speed="1" loop autoplay></lottie-player>
+      Receba em apenas poucos minutos!
+    </div>
+    <div class="feature">
+      <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_hvxsmkdc.json" background="transparent" speed="1" loop autoplay></lottie-player>
+      Sem nenhum risco para seu perfil.
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Seguidores 100% Reais!</h2>
+  <p>Compre + <strong>SEGUIDORES</strong> para seu Instagram e se torne o MAIS famoso entre seus amigos!</p>
+  <div class="testimonials">
+    <div class="testimonial">
+      <p>“Ganhei 1.000 seguidores reais em poucos minutos! Agora estou ganhando com o Insta!”<br><strong>– Joso M.</strong></p>
+    </div>
+    <div class="testimonial">
+      <p>“Excelente serviço! Os seguidores chegaram rápido e comecei a monetizar meu perfil!”<br><strong>– Camila $.</strong></p>
+    </div>
+  </div>
+</section>
+<section class="section section-light" id="pacotes">
+  <h2>Escolha seu pacote</h2>
+<!-- FILTROS -->
+<div style="margin-bottom: 30px;">
+  <button class="btn" onclick="filtrarPacotes('seguidores')" style="margin-bottom: 5px;">Seguidores</button>
+  <button class="btn" onclick="filtrarPacotes('curtidas')" style="margin-bottom: 5px;">Curtidas</button>
+  <button class="btn" onclick="filtrarPacotes('views')">Visualizações</button>
+</div>
+
+
+<!-- NOVOS PACOTES -->
+<div class="packages" id="pacotesContainer">
+  <!-- Pacotes serão injetados aqui via JS -->
+</div>
+
+
+  </div>
+</section>
+
+<script>
+  function comprar(pacote) {
+    window.location.href = `step2.html?pacote=${pacote}`;
+  }
+</script>
+
+<!-- POP-UP DE OFERTA INICIAL -->
+<div class="popup" id="popupOferta" style="display: none;">
+  <div class="popup-content fade-in">
+    <h2 style="color:#fcd400;">🎉 OFERTA IMPERDÍVEL!</h2>
+    <p><del style="color:red;">De R$ 19,99</del> por <strong style="font-size:24px;">R$ 8,97</strong> você recebe:<br><strong>3.000 Seguidores BRASILEIROS + 10.000 Visualizações + 5.000 Curtidas + 1.000 Comentários</strong></p>
+    <button onclick="aceitarOfertaEspecial()" class="btn">Quero essa oferta</button><br>
+    <button onclick="recusarOfertaEspecial()" class="btn" style="background:#555; color:white;">Recusar</button>
+  </div>
+</div>
+
+<!-- POP-UP DE OFERTA REDUZIDA -->
+<div class="popup" id="popupMelhorada" style="display: none;">
+  <div class="popup-content fade-in">
+    <h2 style="color:#fcd400;">🔥 MELHOR AINDA!</h2>
+    <p><strong>3.000 Seguidores + 4.000 Curtidas por apenas</strong> <strong style="font-size:24px;">R$ 7,99</strong></p>
+    <button onclick="aceitarOfertaEspecial299()" class="btn">Aproveitar agora</button><br>
+    <button onclick="fecharPopup()" class="btn" style="background:#555; color:white;">Agora não</button>
+  </div>
+</div>
+
+<!-- POP-UP DE UPSELL POR R$ 0,50 -->
+<div class="popup" id="popupUpsell" style="display: none;">
+  <div class="popup-content fade-in">
+    <h2 style="color:#fcd400;">🎁 Oferta bônus!</h2>
+    <p><strong>Adicione +500 seguidores e 2000 Curtidas</strong> por apenas: <br><strong>R$ 1,82</strong> <br><span style="opacity:0.1;">na proxima compra</span></p>
+    <button class="btn" onclick="confirmarUpsell()">Quero!</button><br>
+    <button class="btn" style="background:#555; color:white;" onclick="recusarUpsell()">Não, obrigado</button>
+  </div>
+</div>
+
+<script>
+  // EXIBE POP-UP INICIAL
+  window.onload = () => {
+    setTimeout(() => {
+      document.getElementById('popupOferta').style.display = 'flex';
+    }, 1000);
+  };
+
+  function aceitarOfertaEspecial() {
+    window.location.href = 'step2.html?pacote=ofertaespecial399';
+  }
+
+  function recusarOfertaEspecial() {
+    document.getElementById('popupOferta').style.display = 'none';
+    document.getElementById('popupMelhorada').style.display = 'flex';
+  }
+
+  function aceitarOfertaEspecial299() {
+    window.location.href = 'step2.html?pacote=ofertaespecial299';
+  }
+
+  function fecharPopup() {
+    document.getElementById('popupMelhorada').classList.remove('fade-in');
+    document.getElementById('popupMelhorada').style.animation = 'fadeOut 0.5s ease';
+    setTimeout(() => {
+      document.getElementById('popupMelhorada').style.display = 'none';
+    }, 500);
+  }
+
+  // PACOTE + 0,50
+  function comprar(pacote) {
+    mostrarPopupUpsell(pacote);
+  }
+
+  let pacoteSelecionado = '';
+  function mostrarPopupUpsell(pacote) {
+    pacoteSelecionado = pacote;
+    document.getElementById('popupUpsell').style.display = 'flex';
+  }
+
+  function confirmarUpsell() {
+    window.location.href = `step2.html?pacote=${pacoteSelecionado}&upsell=true`;
+  }
+
+  function recusarUpsell() {
+    window.location.href = `step2.html?pacote=${pacoteSelecionado}`;
+  }
+</script>
+
+<style>
+
+  /* 🔥 NAVBAR */
+.navbar {
+  background-color: #1d1d44;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.navbar .logo {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.navbar .menu-icon {
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.navbar .menu {
+  display: none;
+  position: absolute;
+  top: 55px;
+  right: 20px;
+  background-color: #2b2b6c;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  flex-direction: column;
+  padding: 10px;
+}
+
+.navbar .menu a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  display: block;
+  transition: 0.3s;
+  border-radius: 8px;
+}
+
+.navbar .menu a:hover {
+  background-color: #fcd400;
+  color: #000;
+}
+
+  .popup {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  .popup-content {
+  background: #2b2b6c;
+  color: white;
+  padding: 30px 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  animation: fadeIn 0.4s ease;
+  box-shadow: 0 0 20px rgba(252, 212, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.popup-content h2 {
+  color: #fcd400;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.popup-content p {
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+
+.popup-content .btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.popup-content button {
+  width: 100%;
+  padding: 12px 0;
+  background-color: #fcd400;
+  color: #000;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.popup-content button:hover {
+  background-color: #ffe75c;
+}
+
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes fadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.95); }
+  }
+</style>
+
+<script>
+  const todosPacotes = {
+  seguidores: [
+    { id: "seg_1k", nome: "700 Seguidores", preco: "R$ 1,99", descricao: "✔ Seguidores Mundiais\n✔ Serviço Instável" },
+    { id: "seg_2k", nome: "1.400 Seguidores", preco: "R$ 3,98", descricao: "✔ Seguidores Mundiais\n✔ Garantia de 7 dias" },
+    { id: "seg_5k", nome: "2.100 Seguidores", preco: "R$ 5,97", descricao: "✔ Seguidores Brasileiros\n✔ Garantia de 15 dias\n✔ Entrega Rápida" },
+    { id: "seg_7k", nome: "2.800 Seguidores", preco: "R$ 7,96", descricao: "✔ BR + Garantia 20 dias" },
+    { id: "seg_10k", nome: "3.500 Seguidores", preco: "R$ 9,95", descricao: "✔ Top entrega\n✔ Garantia de reposição" },
+    { id: "seg_15k", nome: "4.200 Seguidores", preco: "R$ 11,94", descricao: "✔ Premium BR\n✔ Entrega instantânea" }
+  ],
+  curtidas: [
+    { id: "curt_500", nome: "500 Curtidas", preco: "R$ 1,99", descricao: "✔ Curtidas reais\n✔ Em posts específicos" },
+    { id: "curt_1k", nome: "1.000 Curtidas", preco: "R$ 3,98", descricao: "✔ Curtidas reais\n✔ Segmentadas" },
+    { id: "curt_3k", nome: "1.500 Curtidas", preco: "R$ 5,97", descricao: "✔ Bônus + Entrega expressa" },
+    { id: "curt_5k", nome: "2.000 Curtidas", preco: "R$ 7,96", descricao: "✔ BR reais\n✔ Alta retenção" },
+    { id: "curt_10k", nome: "2.500 Curtidas", preco: "R$ 9,95", descricao: "✔ Mais engajamento" },
+    { id: "curt_15k", nome: "3.000 Curtidas", preco: "R$ 11,94", descricao: "✔ Turbo BR\n✔ Garantia top" }
+  ],
+  views: [
+    { id: "view_1k", nome: "500 Visualizações", preco: "R$ 1,99", descricao: "✔ Visualizações reais\n✔ Rápidas e seguras" },
+    { id: "view_5k", nome: "1.000 Visualizações", preco: "R$ 3,98", descricao: "✔ Visualizações reais\n✔ Prioridade de entrega" },
+    { id: "view_10k", nome: "1.500 Visualizações", preco: "R$ 5,97", descricao: "✔ Visualizações reais\n✔ Garantia incluída" },
+    { id: "view_15k", nome: "2.000 Visualizações", preco: "R$ 7,96", descricao: "✔ BR Express\n✔ Estáveis" },
+    { id: "view_20k", nome: "2.500 Visualizações", preco: "R$ 9,95", descricao: "✔ Top alcance\n✔ Engajamento natural" },
+    { id: "view_30k", nome: "3.000 Visualizações", preco: "R$ 11,94", descricao: "✔ Premium\n✔ Envio imediato" }
+  ]
+};
+
+  function filtrarPacotes(tipo) {
+    const container = document.getElementById("pacotesContainer");
+    container.innerHTML = "";
+
+    todosPacotes[tipo].forEach(pacote => {
+      const card = document.createElement("div");
+      card.className = "package";
+      card.innerHTML = `
+        <h3>${pacote.nome}</h3>
+        <p>${pacote.descricao.replace(/\n/g, "<br>")}</p>
+        <p><strong>${pacote.preco}</strong></p>
+        <button class="btn" onclick="comprar('${pacote.id}')">Comprar</button>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  // Carrega os pacotes de seguidores por padrão
+  window.onload = () => {
+    filtrarPacotes('seguidores');
+    setTimeout(() => {
+      document.getElementById('popupOferta').style.display = 'flex';
+    }, 1000);
+  };
+</script>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById('menu');
+    if (menu.style.display === 'flex') {
+      menu.style.display = 'none';
+    } else {
+      menu.style.display = 'flex';
+    }
+  }
+
+  // Fecha o menu se clicar fora dele
+  window.onclick = function(event) {
+    if (!event.target.matches('.menu-icon')) {
+      const menu = document.getElementById('menu');
+      if (menu.style.display === 'flex') {
+        menu.style.display = 'none';
+      }
+    }
+  }
+</script>
+
+
+</body>
+</html>
